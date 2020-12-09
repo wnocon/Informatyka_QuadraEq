@@ -13,16 +13,16 @@ def quadratic_eqiation(a, b, c):
         return [x1, x2]
 
 
-# def compute_function(a, b, c, xmin, xmax, dx):
-#     xx = []
-#     yy = []
-#     n = int((xmax - xmin)/dx + 1)
-#     for i in range(n):
-#         x = xmin + i*dx
-#         xx.append(x)
-#
-#         y = a*x*x + b*x + c
-#         yy.append(y)
-#
-#     # zwrócenie wyników (duże X i Y)S
-#     return xx, yy
+def compute_function(a, b, c, xmin, xmax, dx):
+    xx = []
+    yy = []
+    n = int((xmax - xmin)/dx + 1)
+    for i in range(n):
+        x = xmin + i*dx
+        xx.append(x)
+
+        y = a*x*x + b*x + c
+        yy.append(y)
+
+    # zwrócenie wyników (xx i yy)
+    return xx, yy

@@ -3,8 +3,9 @@
 from tkinter import *
 from tkinter import messagebox
 
-from project_mathematics import quadratic_eqiation
+from project_mathematics import quadratic_eqiation, compute_function
 
+FONT = ('Arial', 20, 'bold ')
 
 def quit_program():
     answer = messagebox.askyesno("Podejmij decyzję", "Czy zakończyć program?")
@@ -43,6 +44,44 @@ def calcul():
     else:
         result_lbl.config(text='---')
 
+def draw_axis():
+    cv.delete("all")
+    # rysujemy osie
+    cv.create_line(400, 0, 400, 600)
+    for i in range(6):
+        cv.create_line(400, i*100, 410, i*100)
+    cv.create_text(430, 200, text="1", font=FONT)
+
+    cv.create_line(0, 300, 800, 300)
+    for i in range(16):
+        cv.create_line(i*100, 300, i*100, 290)
+    cv.create_text(500, 270, text="1", font=FONT)
+
+def draw():
+    draw_axis()
+
+    xc = []
+    yc = []
+    # pobieranie a, b, c
+    result = get_a_b_c()
+    if result is not None:
+        # liczenie
+        a = result[0]
+        b = result[1]
+        c = result[2]
+        xx, yy = compute_function(a, b, c, -4, 4, 0.1)
+
+    for x in xx:
+        xc.append(100*x + 400)
+    for y in yy:
+        yc.append(-y*100 + 300)
+
+    n = int(len(xc))
+    for i in range(n-1):
+        cv.create_line(xc[i], yc[i], xc[i+1], yc[i+1], fill="royal blue", width = 3)
+
+
+
 root = Tk()
 root.title('Rozwiązywanie równania kwadratowego')
 
@@ -56,6 +95,9 @@ stop_btn.pack(side=LEFT)
 
 calcul_btn = Button(toolbar, text="Rozwiąż równanie", command=calcul)
 calcul_btn.pack(side=LEFT)
+
+draw_btn = Button(toolbar, text="Rysuj wykres", command=draw)
+draw_btn.pack(side=LEFT)
 
 # a, b, c Entry
 leftbar = Frame(root)
@@ -79,5 +121,9 @@ c_entry.grid(row=2, column=1)
 # tekst wyniku
 result_lbl = Label(root, text="Jeszcze nie policzono pierwiastków...")
 result_lbl.pack(side=TOP)
+
+cv = Canvas(root, width=800, height=600, bg="MediumOrchid3")
+cv.pack(side=TOP)
+draw_axis()
 
 mainloop()
