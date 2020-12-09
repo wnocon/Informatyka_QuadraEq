@@ -2,16 +2,18 @@
 
 from tkinter import *
 from tkinter import messagebox
-
 from project_mathematics import quadratic_eqiation, compute_function
 
 FONT = ('Arial', 20, 'bold ')
 
 
 def quit_program():
+    status_bar.config(text='Zamykanie programu...')
     answer = messagebox.askyesno("Podejmij decyzję", "Czy zakończyć program?")
     if answer:
         root.destroy()
+    else:
+        status_bar.config(text='Gotowy...')
 
 
 def get_a_b_c():
@@ -44,8 +46,10 @@ def calcul():
         else:
             s = "x01 = %+10.3f    x02 = %+10.3f" % (result[0], result[1])
         result_lbl.config(text=s)
+        status_bar.config(text='Obliczono pierwiastki...')
     else:
         result_lbl.config(text='---')
+        status_bar.config(text='Błąd...')
 
 
 def draw_axis():
@@ -84,6 +88,9 @@ def draw():
         n = int(len(xc))
         for i in range(n-1):
             cv.create_line(xc[i], yc[i], xc[i+1], yc[i+1], fill="royal blue", width=3)
+        status_bar.config(text='Narysowano wykres...')
+    else:
+        status_bar.config(text='Błąd...')
 
 
 root = Tk()
@@ -92,6 +99,7 @@ root.title('Rozwiązywanie równania kwadratowego')
 # na samej górze będzie kolejna ramka, która będzie zawierała narzędzia w programie
 toolbar = Frame(root)
 toolbar.pack(side=TOP, fill=BOTH)
+toolbar.config(bg='tan1')
 
 # przycisk, który będzie zamykać program
 stop_btn = Button(toolbar, text="Stop", fg='red', command=quit_program)
@@ -103,9 +111,13 @@ calcul_btn.pack(side=LEFT)
 draw_btn = Button(toolbar, text="Rysuj wykres", command=draw)
 draw_btn.pack(side=LEFT)
 
+mainframe = Frame(root)
+mainframe.pack(side=TOP)
+
 # a, b, c Entry
-leftbar = Frame(root)
+leftbar = Frame(mainframe)
 leftbar.pack(side=LEFT)
+leftbar.config(bg='tan1')
 
 Label(leftbar, text="a").grid(row=0, column=0)
 a_entry = Entry(leftbar, width=10)
@@ -123,11 +135,14 @@ c_entry.insert(0, str(-2.0))
 c_entry.grid(row=2, column=1)
 
 # tekst wyniku
-result_lbl = Label(root, text="Jeszcze nie policzono pierwiastków...")
+result_lbl = Label(mainframe, text="Jeszcze nie policzono pierwiastków...")
 result_lbl.pack(side=TOP)
 
-cv = Canvas(root, width=800, height=600, bg="MediumOrchid3")
+cv = Canvas(mainframe, width=800, height=600, bg="MediumOrchid3")
 cv.pack(side=TOP)
 draw_axis()
+
+status_bar = Label(root, text='Gotowy...', bg="hot pink")
+status_bar.pack(side=TOP, anchor=W, fill=BOTH)
 
 mainloop()
