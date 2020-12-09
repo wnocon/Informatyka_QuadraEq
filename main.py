@@ -7,10 +7,12 @@ from project_mathematics import quadratic_eqiation, compute_function
 
 FONT = ('Arial', 20, 'bold ')
 
+
 def quit_program():
     answer = messagebox.askyesno("Podejmij decyzję", "Czy zakończyć program?")
     if answer:
         root.destroy()
+
 
 def get_a_b_c():
     a = a_entry.get()
@@ -26,6 +28,7 @@ def get_a_b_c():
                              "Nie możba konwertować wpisanych wartości do liczb. Popraw proszę swoje zachowanie")
         return None
     return [a, b, c]
+
 
 def calcul():
     result = get_a_b_c()
@@ -44,6 +47,7 @@ def calcul():
     else:
         result_lbl.config(text='---')
 
+
 def draw_axis():
     cv.delete("all")
     # rysujemy osie
@@ -56,6 +60,7 @@ def draw_axis():
     for i in range(16):
         cv.create_line(i*100, 300, i*100, 290)
     cv.create_text(500, 270, text="1", font=FONT)
+
 
 def draw():
     draw_axis()
@@ -71,15 +76,14 @@ def draw():
         c = result[2]
         xx, yy = compute_function(a, b, c, -4, 4, 0.1)
 
-    for x in xx:
-        xc.append(100*x + 400)
-    for y in yy:
-        yc.append(-y*100 + 300)
+        for x in xx:
+            xc.append(100*x + 400)
+        for y in yy:
+            yc.append(-y*100 + 300)
 
-    n = int(len(xc))
-    for i in range(n-1):
-        cv.create_line(xc[i], yc[i], xc[i+1], yc[i+1], fill="royal blue", width = 3)
-
+        n = int(len(xc))
+        for i in range(n-1):
+            cv.create_line(xc[i], yc[i], xc[i+1], yc[i+1], fill="royal blue", width=3)
 
 
 root = Tk()
